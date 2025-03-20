@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Catch the Square - Wow Your Friends!</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        #gameArea {
+            width: 600px;
+            height: 400px;
+            border: 2px solid black;
+            position: relative;
+            background-color: white;
+            overflow: hidden;
+        }
+        #target {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+        #score {
+            font-size: 24px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Catch the Square!</h1>
+    <div id="score">Score: 0</div>
+    <div id="gameArea">
+        <div id="target"></div>
+    </div>
+
+    <script>
+        const gameArea = document.getElementById('gameArea');
+        const target = document.getElementById('target');
+        const scoreDisplay = document.getElementById('score');
+        let score = 0;
+
+        function moveTarget() {
+            const maxX = gameArea.clientWidth - target.clientWidth;
+            const maxY = gameArea.clientHeight - target.clientHeight;
+            const newX = Math.floor(Math.random() * maxX);
+            const newY = Math.floor(Math.random() * maxY);
+            target.style.left = newX + 'px';
+            target.style.top = newY + 'px';
+        }
+
+        target.addEventListener('click', () => {
+            score++;
+            scoreDisplay.textContent = `Score: ${score}`;
+            moveTarget();
+            // Make it slightly harder by shrinking the square (minimum size 20px)
+            const newSize = Math.max(20, 50 - score * 2);
+            target.style.width = newSize + 'px';
+            target.style.height = newSize + 'px';
+            // Change color for fun
+            target.style.backgroundColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+        });
+
+        // Move the target every 1.5 seconds if not clicked
+        setInterval(moveTarget, 1500);
+
+        // Initial position
+        moveTarget();
+    </script>
+</body>
+</html>
